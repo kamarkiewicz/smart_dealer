@@ -1,0 +1,25 @@
+[package]
+name = "smart_dealer"
+version = "0.1.0"
+authors = ["Kamil Markiewicz <k.a.markiewicz@gmail.com>"]
+
+[[bin]]
+name = "app"
+path = "app.rs"
+
+[dependencies.iron-postgres-middleware]
+git = "https://github.com/martinsp/iron-postgres-middleware.git"
+
+[dependencies.handlebars-iron] # 'cause in dev I use hbs.watch()
+git = "https://github.com/sunng87/handlebars-iron.git"
+
+[dependencies.mount]
+git = "https://github.com/iron/mount.git"
+
+[dependencies]
+iron = "*"             # webserver framework
+router = "*"
+rustc-serialize = "*"  # serialization
+tojson_macros = "*"
+# handlebars-iron = "*"  # template parser
+staticfile = "*"

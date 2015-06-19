@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="0.8.1-alpha1" author="Kamil Markiewicz &lt;k.a.markiewicz@gmail.com&gt;" last-position="0,0" last-zoom="0.8"
+	 default-schema="public" default-owner="postgres">
+<database name="black_dealer" prepend-at-bod="true">
+	<role name="postgres"/>
+	<prepended-sql><![CDATA[CREATE EXTENSION postgis;
+-- CREATE EXTENSION postgis_topology;
+]]></prepended-sql>
+</database>
+
+<schema name="public" protected="true" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<table name="contacts">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1520" y="620"/>
+	<column name="contact_id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="forename">
+		<type name="varchar" length="32"/>
+	</column>
+	<column name="surname">
+		<type name="varchar" length="64"/>
+	</column>
+	<column name="created" default-value="now()">
+		<type name="timestamp"/>
+	</column>
+	<constraint name="contact_pk" type="pk-constr" table="public.contacts">
+		<columns names="contact_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="products">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="780" y="280"/>
+	<column name="product_id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="name">
+		<type name="varchar"/>
+	</column>
+	<column name="description">
+		<type name="varchar"/>
+	</column>
+	<constraint name="product_pk" type="pk-constr" table="public.products">
+		<columns names="product_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="deals">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1820" y="260"/>
+	<column name="deal_id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="status">
+		<type name="smallint"/>
+	</column>
+	<column name="timestamp">
+		<type name="timestamp"/>
+	</column>
+	<constraint name="deal_pk" type="pk-constr" table="public.deals">
+		<columns names="deal_id" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="address_id" index="2"/>
+		<object name="contact_id" index="3"/>
+		<object name="offer_id" index="1"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="addresses_fk" index="3"/>
+		<object name="contacts_fk" index="1"/>
+		<object name="offers_fk" index="2"/>
+	</customidxs>
+</table>
+
+<table name="offers">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1240" y="100"/>
+	<column name="offer_id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="price">
+		<type name="smallint"/>
+	</column>
+	<column name="description">
+		<type name="varchar"/>
+	</column>
+	<constraint name="offer_pk" type="pk-constr" table="public.offers">
+		<columns names="offer_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="availabilities">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="420" y="460"/>
+	<column name="availability_id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="quantity">
+		<type name="integer"/>
+	</column>
+	<column name="description">
+		<type name="varchar"/>
+	</column>
+	<constraint name="availability_pk" type="pk-constr" table="public.availabilities">
+		<columns names="availability_id" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="product_id" index="1"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="products_fk" index="1"/>
+	</customidxs>
+</table>
+
+<table name="addresses">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1160" y="380"/>
+	<column name="address_id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="address">
+		<type name="varchar" length="128"/>
+	</column>
+	<column name="postal_code">
+		<type name="varchar" length="16"/>
+	</column>
+	<column name="city">
+		<type name="varchar" length="64"/>
+	</column>
+	<column name="state">
+		<type name="varchar" length="32"/>
+	</column>
+	<column name="country">
+		<type name="varchar" length="128"/>
+	</column>
+	<column name="geopoint">
+		<type name="geography" spatial-type="POINT" variation="0" srid="0"/>
+	</column>
+	<constraint name="address_pk" type="pk-constr" table="public.addresses">
+		<columns names="address_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="contact_details">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="900" y="620"/>
+	<column name="contact_detail_id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="type">
+		<type name="varchar" length="16"/>
+	</column>
+	<column name="value">
+		<type name="text"/>
+	</column>
+	<constraint name="contact_detail_pk" type="pk-constr" table="public.contact_details">
+		<columns names="contact_detail_id" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="contact_id" index="1"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="contacts_fk" index="1"/>
+	</customidxs>
+</table>
+
+<table name="bank_accounts">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Used for money laundering]]></comment>
+	<position x="740" y="80"/>
+	<column name="bank_account_id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="account_number">
+		<type name="varchar" length="128"/>
+	</column>
+	<column name="owner_name">
+		<type name="varchar" length="128"/>
+	</column>
+	<column name="balance">
+		<type name="money"/>
+	</column>
+	<constraint name="bank_account_pk" type="pk-constr" table="public.bank_accounts">
+		<columns names="bank_account_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="many_offers_has_many_products" type="relnn"
+	 src-col-pattern="{sc}" dst-col-pattern="{st}"
+	 pk-pattern="{gt}_pk" uq-pattern="{gt}_uq"
+	 src-fk-pattern="{st}_fk" dst-fk-pattern="{dt}_fk"
+	 pk-col-pattern="id"
+	 custom-color="#04d698"
+	 src-table="public.offers"
+	 dst-table="public.products"
+	 src-required="false" dst-required="false"
+	 table-name="many_offers_has_many_products">
+	<column name="price">
+		<type name="money"/>
+	</column>
+</relationship>
+
+<relationship name="contacts_has_many_contact_details" type="rel1n"
+	 src-col-pattern="{sc}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#2df74a"
+	 src-table="public.contacts"
+	 dst-table="public.contact_details"
+	 src-required="false" dst-required="false"/>
+
+<table name="categories">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="360" y="100"/>
+	<column name="category_id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="name">
+		<type name="varchar"/>
+	</column>
+	<constraint name="category_pk" type="pk-constr" table="public.categories">
+		<columns names="category_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="many_contacts_has_many_addresses" type="relnn"
+	 src-col-pattern="{sc}_{st}" dst-col-pattern="{sc}_{dt}"
+	 pk-pattern="{gt}_pk" uq-pattern="{gt}_uq"
+	 src-fk-pattern="{st}_fk" dst-fk-pattern="{dt}_fk"
+	 pk-col-pattern="id"
+	 custom-color="#baa1da"
+	 src-table="public.contacts"
+	 dst-table="public.addresses"
+	 src-required="false" dst-required="false"
+	 table-name="many_contacts_has_many_addresses"/>
+
+<relationship name="contacts_has_many_deals" type="rel1n"
+	 src-col-pattern="{sc}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#a7369f"
+	 src-table="public.contacts"
+	 dst-table="public.deals"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="many_products_has_many_categories" type="relnn"
+	 src-col-pattern="{sc}_{st}" dst-col-pattern="{sc}_{dt}"
+	 pk-pattern="{gt}_pk" uq-pattern="{gt}_uq"
+	 src-fk-pattern="{st}_fk" dst-fk-pattern="{dt}_fk"
+	 pk-col-pattern="id"
+	 custom-color="#6dc548"
+	 src-table="public.products"
+	 dst-table="public.categories"
+	 src-required="false" dst-required="false"
+	 table-name="many_products_has_many_categories"/>
+
+<relationship name="products_has_many_availabilities" type="rel1n"
+	 src-col-pattern="{sc}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#03d0a8"
+	 src-table="public.products"
+	 dst-table="public.availabilities"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="offers_has_many_deals" type="rel1n"
+	 src-col-pattern="{sc}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#f70180"
+	 src-table="public.offers"
+	 dst-table="public.deals"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="addresses_has_many_deals" type="rel1n"
+	 src-col-pattern="{sc}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#9c15c8"
+	 src-table="public.addresses"
+	 dst-table="public.deals"
+	 src-required="false" dst-required="false"/>
+
+</dbmodel>
