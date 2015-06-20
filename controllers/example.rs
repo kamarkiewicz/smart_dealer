@@ -47,9 +47,6 @@ fn make_data() -> BTreeMap<String, Json> {
 
 /// the handler
 pub fn hello_world(_: &mut Request) -> IronResult<Response> {
-    let mut resp = Response::new();
-
     let data = make_data();
-    resp.set_mut(Template::new("hello_world", data)).set_mut(status::Ok);
-    Ok(resp)
+    Ok(Response::with((status::Ok, Template::new("hello_world", data))))
 }
