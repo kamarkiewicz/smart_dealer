@@ -1,0 +1,2 @@
+*.rs linguist-language=Rust
+views/ linguist-vendored=false
