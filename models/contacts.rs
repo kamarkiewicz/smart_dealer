@@ -5,9 +5,3 @@ pub struct Contact {
     pub surname: String,
     pub created: String
 }
-
-#[derive(ToJson)]
-pub struct Team {
-    pub name: String,
-    pub pts: u16
-}

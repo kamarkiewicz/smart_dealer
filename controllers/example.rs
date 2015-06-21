@@ -26,27 +26,28 @@ pub fn name_list(req: &mut Request) -> IronResult<Response> {
 }
 
 
+
+
 fn make_data() -> BTreeMap<String, Json> {
     let mut data = BTreeMap::new();
 
-    data.insert("year".to_string(), "2015".to_json());
+/*  data.insert("year".to_string(), "2015".to_json());
 
-    let teams = vec![ models::Team { name: "Jiangsu Sainty".to_string(),
+    let teams = vec![ Team { name: "Jiangsu Sainty".to_string(),
                              pts: 43u16 },
-                      models::Team { name: "Beijing Guoan".to_string(),
+                      Team { name: "Beijing Guoan".to_string(),
                              pts: 27u16 },
-                      models::Team { name: "Guangzhou Evergrand".to_string(),
+                      Team { name: "Guangzhou Evergrand".to_string(),
                              pts: 22u16 },
-                      models::Team { name: "Shandong Luneng".to_string(),
+                      Team { name: "Shandong Luneng".to_string(),
                              pts: 12u16 } ];
 
-    data.insert("teams".to_string(), teams.to_json());
+    data.insert("teams".to_string(), teams.to_json()); */
     data
 }
-
 
 /// the handler
 pub fn hello_world(_: &mut Request) -> IronResult<Response> {
     let data = make_data();
-    Ok(Response::with((status::Ok, Template::new("hello_world", data))))
+    Ok(Response::with((status::Ok, Template::new("index", data))))
 }
