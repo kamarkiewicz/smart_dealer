@@ -1,5 +1,5 @@
-smart_dealer
-============
+smart_dealer.
+=============
 
 Projekt polegający na stworzeniu bazy danych i aplikacji użytkowej dla handlarza bronią.
 
