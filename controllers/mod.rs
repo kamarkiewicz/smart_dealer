@@ -1,24 +1,30 @@
 
 use iron::prelude::*;
-use router::Router;
+use iron::status;
 use mount::Mount;
 use staticfile::Static;
 use std::path::Path;
 
-use self::example::*;
+mod contacts;
+// mod offers;
+// mod products;
+// mod deals;
+// mod bank_accounts;
 
-pub mod example;
+fn home_page(_: &mut Request) -> IronResult<Response> {
+    Ok(Response::with((status::Ok, "Hello world!")))
+}
 
 pub fn routes() -> Mount {
-    let mut router = Router::new();
-    router
-        .get("/", hello_world)
-        .get("/nl", name_list);
-
     let mut mount = Mount::new();
     mount
-        .mount("/", router)
-        .mount("/static/", Static::new(Path::new("static")));
+        .mount("/contacts/", contacts::routes())
+        // .mount("/offers/", offers::routes())
+        // .mount("/products/", products::routes())
+        // .mount("/deals/", deals::routes())
+        // .mount("/bank_accounts/", bank_accounts::routes())
+        .mount("/static/", Static::new(Path::new("static")))
+        .mount("/", home_page);
 
     mount
 }

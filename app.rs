@@ -8,6 +8,8 @@ extern crate iron_postgres_middleware as ipm;
 extern crate handlebars_iron as hbs;
 extern crate mount;
 extern crate staticfile;
+#[macro_use]
+extern crate maplit;
 
 use iron::prelude::*;
 use middlewares::*;

@@ -23,3 +23,4 @@ rustc-serialize = "*"  # serialization
 tojson_macros = "*"
 # handlebars-iron = "*"  # template parser
 staticfile = "*"
+maplit = "*"
