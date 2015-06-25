@@ -17,9 +17,34 @@ fn contacts(req: &mut Request) -> IronResult<Response> {
     Ok(Response::with((status::Ok, Template::new("contacts", data))))
 }
 
+fn details_get(req: &mut Request) -> IronResult<Response> {
+    let params = req.extensions.get::<Router>().unwrap();
+    let id = params.find("id").unwrap().parse::<i32>().unwrap();
+    let v = models::ContactDetail::get_by_client_id(req, id);
+    let data = btreemap! {
+        "client_id".to_string() => id.to_json(),
+        "details".to_string() => v.to_json()
+    };
+    Ok(Response::with((status::Ok, data)))
+}
+
+// fn details_post(req: &mut Request) -> IronResult<Response> {
+//     let params = req.extensions.get::<Router>().unwrap();
+//     let id = params.find("id").unwrap();
+//     let v = models::ContactDetail::get_by_client_id(req, id);
+//     let data = btreemap! {
+//         "client_id".to_string() => id.to_json(),
+//         "details".to_string() => v.to_json()
+//     }.to_json();
+//     Ok(Response::with((status::Ok, data)))
+// }
+
 pub fn routes() -> Router {
     let mut router = Router::new();
-    router.get("/", contacts);
+    router
+        .get("/", contacts)
+        .get("/details/:id", details_get);
+        // .post("/details/:id", details_post);
     // router.get("/details/:id", details_by_id)
     router
 }

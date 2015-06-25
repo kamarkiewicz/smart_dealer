@@ -1,13 +1,13 @@
 
 use ipm::PostgresReqExt;
-use time::Timespec;
+// use time::Timespec;
 
 #[derive(ToJson)]
 pub struct Contact {
 	pub contact_id: i32,
     pub forename: String,
     pub surname: String,
-    pub created: Timespec
+    // pub created: Timespec
 }
 
 #[derive(ToJson)]
@@ -25,8 +25,7 @@ impl Contact {
         let stmt = conn.prepare(
                 "SELECT contact_id,\
                         forename,\
-                        surname,
-                        created FROM contacts"
+                        surname FROM contacts"
             ).unwrap();
         let rows = stmt.query(&[]).unwrap();
         for row in rows {
@@ -34,13 +33,15 @@ impl Contact {
                 contact_id: row.get(0),
                 forename: row.get(1),
                 surname: row.get(2),
-                created: row.get(3)
+                // created: row.get(3)
             }); 
         }
         vec
     }
+}
 
-    pub fn get_details(req: &PostgresReqExt, contact_id: i32) -> Vec<ContactDetail> {
+impl ContactDetail {
+    pub fn get_by_client_id(req: &PostgresReqExt, contact_id: i32) -> Vec<ContactDetail> {
         let mut vec = Vec::new(); 
         let conn = req.db_conn();
         let stmt = conn.prepare(
@@ -59,5 +60,16 @@ impl Contact {
             }); 
         }
         vec
+    }
+
+    pub fn save(&self, req: &PostgresReqExt) {
+        let conn = req.db_conn();
+        let _ = conn.execute(
+                "SELECT \"contact_detail_save\"($1, $2, $3, $4)",
+            &[&self.contact_detail_id,
+              &self.contact_id,
+              &self.detail_type,
+              &self.detail_value]
+            ).unwrap();
     }
 }
