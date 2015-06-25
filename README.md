@@ -27,10 +27,10 @@ Instalacja
 ==========
 
 Najprostrzym sposobem na instalację Rust nightly jest wydanie polecenia:
-`curl -sSf https://static.rust-lang.org/rustup.sh | sh -s -- --channel=nightly`
+```curl -sSf https://static.rust-lang.org/rustup.sh | sh -s -- --channel=nightly```
 Najnowsze źródła do mojego projektu są dostępne po wydaniu polecenia:
-`git clone https://github.com/kamarkiewicz/smart_dealer.git`
-W katalogu projektu wpisz `cargo run --release` w celu automatycznego jego zbudowania.
+```git clone https://github.com/kamarkiewicz/smart_dealer.git```
+W katalogu projektu wpisz `cargo run --release` w celu automatycznego jego zbudowania i uruchomienia.
 
 
 Przydatne linki
