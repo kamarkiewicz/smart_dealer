@@ -4,6 +4,7 @@ use iron::status;
 use mount::Mount;
 use staticfile::Static;
 use std::path::Path;
+use hbs::Template;
 
 mod contacts;
 // mod offers;
@@ -11,8 +12,11 @@ mod contacts;
 // mod deals;
 // mod bank_accounts;
 
-fn home_page(_: &mut Request) -> IronResult<Response> {
-    Ok(Response::with((status::Ok, "Hello world!")))
+fn index(_: &mut Request) -> IronResult<Response> {
+    let data = btreemap! {
+        "title".to_string() => "Strona główna".to_string()
+    };
+    Ok(Response::with((status::Ok, Template::new("index", data))))
 }
 
 pub fn routes() -> Mount {
@@ -24,7 +28,7 @@ pub fn routes() -> Mount {
         // .mount("/deals/", deals::routes())
         // .mount("/bank_accounts/", bank_accounts::routes())
         .mount("/static/", Static::new(Path::new("static")))
-        .mount("/", home_page);
+        .mount("/", index);
 
     mount
 }

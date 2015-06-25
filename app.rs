@@ -5,6 +5,8 @@ extern crate iron;
 extern crate router;
 extern crate rustc_serialize;
 extern crate iron_postgres_middleware as ipm;
+extern crate postgres;
+extern crate time;
 extern crate handlebars_iron as hbs;
 extern crate mount;
 extern crate staticfile;

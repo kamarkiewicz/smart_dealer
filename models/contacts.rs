@@ -1,12 +1,13 @@
 
 use ipm::PostgresReqExt;
+use time::Timespec;
 
 #[derive(ToJson)]
 pub struct Contact {
 	pub contact_id: i32,
     pub forename: String,
     pub surname: String,
-    pub created: String
+    pub created: Timespec
 }
 
 #[derive(ToJson)]
@@ -24,7 +25,7 @@ impl Contact {
         let stmt = conn.prepare(
                 "SELECT contact_id,\
                         forename,\
-                        surname,\
+                        surname,
                         created FROM contacts"
             ).unwrap();
         let rows = stmt.query(&[]).unwrap();
@@ -39,14 +40,14 @@ impl Contact {
         vec
     }
 
-    pub fn get_details(req: &PostgresReqExt) -> Vec<ContactDetail> {
+    pub fn get_details(req: &PostgresReqExt, contact_id: i32) -> Vec<ContactDetail> {
         let mut vec = Vec::new(); 
         let conn = req.db_conn();
         let stmt = conn.prepare(
-                "SELECT contact_id,\
-                        forename,\
-                        surname,\
-                        created FROM contact_details"
+                "SELECT contact_detail_id,\
+                        contact_id,\
+                        detail_type,\
+                        detail_value FROM contact_details"
             ).unwrap();
         let rows = stmt.query(&[]).unwrap();
         for row in rows {

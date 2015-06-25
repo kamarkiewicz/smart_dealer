@@ -7,6 +7,10 @@ authors = ["Kamil Markiewicz <k.a.markiewicz@gmail.com>"]
 name = "app"
 path = "app.rs"
 
+[dependencies.postgres]
+postgres = "*"
+features = ["time"]
+
 [dependencies.iron-postgres-middleware]
 git = "https://github.com/martinsp/iron-postgres-middleware.git"
 
@@ -24,3 +28,4 @@ tojson_macros = "*"
 # handlebars-iron = "*"  # template parser
 staticfile = "*"
 maplit = "*"
+time = "*"
