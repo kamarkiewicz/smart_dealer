@@ -1,13 +1,14 @@
 
 use ipm::PostgresReqExt;
-// use time::Timespec;
+use rustc_serialize::json::{self, ToJson};
+use time::Timespec;
 
 #[derive(ToJson)]
 pub struct Contact {
 	pub contact_id: i32,
     pub forename: String,
     pub surname: String,
-    // pub created: Timespec
+    pub created: Timespec
 }
 
 #[derive(ToJson)]
@@ -33,7 +34,7 @@ impl Contact {
                 contact_id: row.get(0),
                 forename: row.get(1),
                 surname: row.get(2),
-                // created: row.get(3)
+                created: row.get(3)
             }); 
         }
         vec
@@ -47,10 +48,12 @@ impl ContactDetail {
         let stmt = conn.prepare(
                 "SELECT contact_detail_id,\
                         contact_id,\
-                        detail_type,\
-                        detail_value FROM contact_details"
+                        type,\
+                        value\
+                    FROM contact_details\
+                    WHERE contact_id = $1"
             ).unwrap();
-        let rows = stmt.query(&[]).unwrap();
+        let rows = stmt.query(&[&contact_id]).unwrap();
         for row in rows {
             vec.push(ContactDetail {
                 contact_detail_id: row.get(0),

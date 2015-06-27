@@ -2,30 +2,40 @@
 name = "smart_dealer"
 version = "0.1.0"
 authors = ["Kamil Markiewicz <k.a.markiewicz@gmail.com>"]
+license = "MIT"
+repository = "https://github.com/kamarkiewicz/smart_dealer.git"
 
 [[bin]]
 name = "app"
 path = "app.rs"
 
-[dependencies.postgres]
-postgres = "*"
-features = ["time"]
+
+[dependencies.time]
+git = "https://github.com/kamarkiewicz/time.git"
+features = ["rustc-serialize"]
+rev = "12e2c1df439a42cd5b26664422deff053e78b256"
 
 [dependencies.iron-postgres-middleware]
 git = "https://github.com/martinsp/iron-postgres-middleware.git"
+rev = "d5b33aab"
+# features = ["time"]
 
-[dependencies.handlebars-iron] # 'cause in dev I use hbs.watch()
+[dependencies.handlebars-iron]
 git = "https://github.com/sunng87/handlebars-iron.git"
+rev = "5dc18399"
 
 [dependencies.mount]
 git = "https://github.com/iron/mount.git"
+rev = "e9df0ef1"
 
 [dependencies]
-iron = "*"             # webserver framework
-router = "*"
-rustc-serialize = "*"  # serialization
-tojson_macros = "*"
-# handlebars-iron = "*"  # template parser
-staticfile = "*"
-maplit = "*"
-time = "*"
+iron = "0.1.18"
+router = "0.0.10"
+rustc-serialize = "0.3.15"
+tojson_macros = "0.1.1"
+staticfile = "0.0.3"
+maplit = "0.1.1"
+# postgres = { version = "*", features = ["time"] }
+
+# [dev-dependencies]
+

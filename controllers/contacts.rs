@@ -2,7 +2,7 @@
 use iron::prelude::*;
 use iron::status;
 use router::Router;
-use rustc_serialize::json::ToJson;
+use rustc_serialize::json::{self, ToJson};
 
 use ::models;
 use hbs::Template;
@@ -19,13 +19,15 @@ fn contacts(req: &mut Request) -> IronResult<Response> {
 
 fn details_get(req: &mut Request) -> IronResult<Response> {
     let params = req.extensions.get::<Router>().unwrap();
-    let id = params.find("id").unwrap().parse::<i32>().unwrap();
+    let id_opt = params.find("id").unwrap();
+    let id = id_opt.parse::<i32>().unwrap();
     let v = models::ContactDetail::get_by_client_id(req, id);
     let data = btreemap! {
         "client_id".to_string() => id.to_json(),
         "details".to_string() => v.to_json()
     };
-    Ok(Response::with((status::Ok, data)))
+    let payload = json::encode(&data).unwrap();
+    Ok(Response::with((status::Ok, payload)))
 }
 
 // fn details_post(req: &mut Request) -> IronResult<Response> {
@@ -45,6 +47,6 @@ pub fn routes() -> Router {
         .get("/", contacts)
         .get("/details/:id", details_get);
         // .post("/details/:id", details_post);
-    // router.get("/details/:id", details_by_id)
+        // .get("/details/:id", details_by_id)
     router
 }
