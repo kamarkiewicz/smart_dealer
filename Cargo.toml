@@ -15,6 +15,10 @@ git = "https://github.com/kamarkiewicz/time.git"
 features = ["rustc-serialize"]
 rev = "12e2c1df439a42cd5b26664422deff053e78b256"
 
+[dependencies.postgres]
+version = "*"
+features = ["time"]
+
 [dependencies.iron-postgres-middleware]
 git = "https://github.com/martinsp/iron-postgres-middleware.git"
 rev = "d5b33aab"
@@ -35,7 +39,6 @@ rustc-serialize = "0.3.15"
 tojson_macros = "0.1.1"
 staticfile = "0.0.3"
 maplit = "0.1.1"
-# postgres = { version = "*", features = ["time"] }
 
 # [dev-dependencies]
 
