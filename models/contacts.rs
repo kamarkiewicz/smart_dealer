@@ -16,7 +16,7 @@ pub struct ContactDetail {
     pub contact_detail_id: i32,
     pub contact_id: i32,
     pub dtype: String,
-    pub value: String
+    pub dvalue: String
 }
 
 impl Contact {
@@ -47,7 +47,7 @@ impl ContactDetail {
         let mut vec = Vec::new(); 
         let conn = req.db_conn();
         let stmt = conn.prepare(
-            "SELECT contact_detail_id,contact_id,type,value \
+            "SELECT contact_detail_id,contact_id,type,dvalue \
              FROM contact_details WHERE contact_id=$1"
             ).unwrap();
         let rows = stmt.query(&[&contact_id]).unwrap();
@@ -56,7 +56,7 @@ impl ContactDetail {
                 contact_detail_id: row.get(0),
                 contact_id: row.get(1),
                 dtype: row.get(2),
-                value: row.get(3)
+                dvalue: row.get(3)
             }); 
         }
         vec
@@ -69,7 +69,7 @@ impl ContactDetail {
             &[&self.contact_detail_id,
               &self.contact_id,
               &self.dtype,
-              &self.value]
+              &self.dvalue]
             ).unwrap();
     }
 }

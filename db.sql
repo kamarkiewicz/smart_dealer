@@ -1,4 +1,3 @@
-CREATE EXTENSION postgis;
 
 
 -- PostgreSQL version: 9.4
@@ -15,8 +14,10 @@ CREATE EXTENSION postgis;
 -- -- ddl-end --
 -- 
 
+-- CREATE EXTENSION postgis;
+
 -- object: public.contacts | type: TABLE --
--- DROP TABLE IF EXISTS public.contacts CASCADE;
+DROP TABLE IF EXISTS public.contacts CASCADE;
 CREATE TABLE public.contacts(
 	contact_id serial NOT NULL,
 	forename varchar(32),
@@ -30,7 +31,7 @@ ALTER TABLE public.contacts OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.products | type: TABLE --
--- DROP TABLE IF EXISTS public.products CASCADE;
+DROP TABLE IF EXISTS public.products CASCADE;
 CREATE TABLE public.products(
 	product_id serial NOT NULL,
 	name varchar,
@@ -43,7 +44,7 @@ ALTER TABLE public.products OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.deals | type: TABLE --
--- DROP TABLE IF EXISTS public.deals CASCADE;
+DROP TABLE IF EXISTS public.deals CASCADE;
 CREATE TABLE public.deals(
 	deal_id serial NOT NULL,
 	offer_id integer,
@@ -59,7 +60,7 @@ ALTER TABLE public.deals OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.offers | type: TABLE --
--- DROP TABLE IF EXISTS public.offers CASCADE;
+DROP TABLE IF EXISTS public.offers CASCADE;
 CREATE TABLE public.offers(
 	offer_id serial NOT NULL,
 	price smallint,
@@ -72,7 +73,7 @@ ALTER TABLE public.offers OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.availabilities | type: TABLE --
--- DROP TABLE IF EXISTS public.availabilities CASCADE;
+DROP TABLE IF EXISTS public.availabilities CASCADE;
 CREATE TABLE public.availabilities(
 	availability_id serial NOT NULL,
 	product_id integer,
@@ -86,7 +87,7 @@ ALTER TABLE public.availabilities OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.addresses | type: TABLE --
--- DROP TABLE IF EXISTS public.addresses CASCADE;
+DROP TABLE IF EXISTS public.addresses CASCADE;
 CREATE TABLE public.addresses(
 	address_id serial NOT NULL,
 	address varchar(128),
@@ -103,12 +104,12 @@ ALTER TABLE public.addresses OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.contact_details | type: TABLE --
--- DROP TABLE IF EXISTS public.contact_details CASCADE;
+DROP TABLE IF EXISTS public.contact_details CASCADE;
 CREATE TABLE public.contact_details(
 	contact_detail_id serial NOT NULL,
 	contact_id integer,
-	type varchar(16),
-	value text,
+	dtype varchar(16),
+	dvalue text,
 	CONSTRAINT contact_detail_pk PRIMARY KEY (contact_detail_id)
 
 );
@@ -117,7 +118,7 @@ ALTER TABLE public.contact_details OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.bank_accounts | type: TABLE --
--- DROP TABLE IF EXISTS public.bank_accounts CASCADE;
+DROP TABLE IF EXISTS public.bank_accounts CASCADE;
 CREATE TABLE public.bank_accounts(
 	bank_account_id serial NOT NULL,
 	account_number varchar(128),
@@ -133,7 +134,7 @@ ALTER TABLE public.bank_accounts OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.many_offers_has_many_products | type: TABLE --
--- DROP TABLE IF EXISTS public.many_offers_has_many_products CASCADE;
+DROP TABLE IF EXISTS public.many_offers_has_many_products CASCADE;
 CREATE TABLE public.many_offers_has_many_products(
 	offer_id integer,
 	offers integer,
@@ -144,28 +145,28 @@ CREATE TABLE public.many_offers_has_many_products(
 -- ddl-end --
 
 -- object: offers_fk | type: CONSTRAINT --
--- ALTER TABLE public.many_offers_has_many_products DROP CONSTRAINT IF EXISTS offers_fk CASCADE;
+ALTER TABLE public.many_offers_has_many_products DROP CONSTRAINT IF EXISTS offers_fk CASCADE;
 ALTER TABLE public.many_offers_has_many_products ADD CONSTRAINT offers_fk FOREIGN KEY (offer_id)
 REFERENCES public.offers (offer_id) MATCH FULL
 ON DELETE RESTRICT ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: products_fk | type: CONSTRAINT --
--- ALTER TABLE public.many_offers_has_many_products DROP CONSTRAINT IF EXISTS products_fk CASCADE;
+ALTER TABLE public.many_offers_has_many_products DROP CONSTRAINT IF EXISTS products_fk CASCADE;
 ALTER TABLE public.many_offers_has_many_products ADD CONSTRAINT products_fk FOREIGN KEY (offers)
 REFERENCES public.products (product_id) MATCH FULL
 ON DELETE RESTRICT ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: contacts_fk | type: CONSTRAINT --
--- ALTER TABLE public.contact_details DROP CONSTRAINT IF EXISTS contacts_fk CASCADE;
+ALTER TABLE public.contact_details DROP CONSTRAINT IF EXISTS contacts_fk CASCADE;
 ALTER TABLE public.contact_details ADD CONSTRAINT contacts_fk FOREIGN KEY (contact_id)
 REFERENCES public.contacts (contact_id) MATCH FULL
 ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: public.categories | type: TABLE --
--- DROP TABLE IF EXISTS public.categories CASCADE;
+DROP TABLE IF EXISTS public.categories CASCADE;
 CREATE TABLE public.categories(
 	category_id serial NOT NULL,
 	name varchar,
@@ -177,7 +178,7 @@ ALTER TABLE public.categories OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.many_contacts_has_many_addresses | type: TABLE --
--- DROP TABLE IF EXISTS public.many_contacts_has_many_addresses CASCADE;
+DROP TABLE IF EXISTS public.many_contacts_has_many_addresses CASCADE;
 CREATE TABLE public.many_contacts_has_many_addresses(
 	contact_id_contacts integer,
 	address_id_addresses integer,
@@ -187,28 +188,28 @@ CREATE TABLE public.many_contacts_has_many_addresses(
 -- ddl-end --
 
 -- object: contacts_fk | type: CONSTRAINT --
--- ALTER TABLE public.many_contacts_has_many_addresses DROP CONSTRAINT IF EXISTS contacts_fk CASCADE;
+ALTER TABLE public.many_contacts_has_many_addresses DROP CONSTRAINT IF EXISTS contacts_fk CASCADE;
 ALTER TABLE public.many_contacts_has_many_addresses ADD CONSTRAINT contacts_fk FOREIGN KEY (contact_id_contacts)
 REFERENCES public.contacts (contact_id) MATCH FULL
 ON DELETE RESTRICT ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: addresses_fk | type: CONSTRAINT --
--- ALTER TABLE public.many_contacts_has_many_addresses DROP CONSTRAINT IF EXISTS addresses_fk CASCADE;
+ALTER TABLE public.many_contacts_has_many_addresses DROP CONSTRAINT IF EXISTS addresses_fk CASCADE;
 ALTER TABLE public.many_contacts_has_many_addresses ADD CONSTRAINT addresses_fk FOREIGN KEY (address_id_addresses)
 REFERENCES public.addresses (address_id) MATCH FULL
 ON DELETE RESTRICT ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: contacts_fk | type: CONSTRAINT --
--- ALTER TABLE public.deals DROP CONSTRAINT IF EXISTS contacts_fk CASCADE;
+ALTER TABLE public.deals DROP CONSTRAINT IF EXISTS contacts_fk CASCADE;
 ALTER TABLE public.deals ADD CONSTRAINT contacts_fk FOREIGN KEY (contact_id)
 REFERENCES public.contacts (contact_id) MATCH FULL
 ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: public.many_products_has_many_categories | type: TABLE --
--- DROP TABLE IF EXISTS public.many_products_has_many_categories CASCADE;
+DROP TABLE IF EXISTS public.many_products_has_many_categories CASCADE;
 CREATE TABLE public.many_products_has_many_categories(
 	product_id_products integer,
 	category_id_categories integer,
@@ -218,35 +219,35 @@ CREATE TABLE public.many_products_has_many_categories(
 -- ddl-end --
 
 -- object: products_fk | type: CONSTRAINT --
--- ALTER TABLE public.many_products_has_many_categories DROP CONSTRAINT IF EXISTS products_fk CASCADE;
+ALTER TABLE public.many_products_has_many_categories DROP CONSTRAINT IF EXISTS products_fk CASCADE;
 ALTER TABLE public.many_products_has_many_categories ADD CONSTRAINT products_fk FOREIGN KEY (product_id_products)
 REFERENCES public.products (product_id) MATCH FULL
 ON DELETE RESTRICT ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: categories_fk | type: CONSTRAINT --
--- ALTER TABLE public.many_products_has_many_categories DROP CONSTRAINT IF EXISTS categories_fk CASCADE;
+ALTER TABLE public.many_products_has_many_categories DROP CONSTRAINT IF EXISTS categories_fk CASCADE;
 ALTER TABLE public.many_products_has_many_categories ADD CONSTRAINT categories_fk FOREIGN KEY (category_id_categories)
 REFERENCES public.categories (category_id) MATCH FULL
 ON DELETE RESTRICT ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: products_fk | type: CONSTRAINT --
--- ALTER TABLE public.availabilities DROP CONSTRAINT IF EXISTS products_fk CASCADE;
+ALTER TABLE public.availabilities DROP CONSTRAINT IF EXISTS products_fk CASCADE;
 ALTER TABLE public.availabilities ADD CONSTRAINT products_fk FOREIGN KEY (product_id)
 REFERENCES public.products (product_id) MATCH FULL
 ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: offers_fk | type: CONSTRAINT --
--- ALTER TABLE public.deals DROP CONSTRAINT IF EXISTS offers_fk CASCADE;
+ALTER TABLE public.deals DROP CONSTRAINT IF EXISTS offers_fk CASCADE;
 ALTER TABLE public.deals ADD CONSTRAINT offers_fk FOREIGN KEY (offer_id)
 REFERENCES public.offers (offer_id) MATCH FULL
 ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: addresses_fk | type: CONSTRAINT --
--- ALTER TABLE public.deals DROP CONSTRAINT IF EXISTS addresses_fk CASCADE;
+ALTER TABLE public.deals DROP CONSTRAINT IF EXISTS addresses_fk CASCADE;
 ALTER TABLE public.deals ADD CONSTRAINT addresses_fk FOREIGN KEY (address_id)
 REFERENCES public.addresses (address_id) MATCH FULL
 ON DELETE SET NULL ON UPDATE CASCADE;

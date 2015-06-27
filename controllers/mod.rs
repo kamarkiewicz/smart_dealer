@@ -6,6 +6,7 @@ use staticfile::Static;
 use std::path::Path;
 use hbs::Template;
 
+mod database;
 mod contacts;
 // mod offers;
 // mod products;
@@ -27,6 +28,7 @@ pub fn routes() -> Mount {
         // .mount("/products/", products::routes())
         // .mount("/deals/", deals::routes())
         // .mount("/bank_accounts/", bank_accounts::routes())
+        .mount("/database/", database::routes())
         .mount("/static/", Static::new(Path::new("static")))
         .mount("/", index);
 
