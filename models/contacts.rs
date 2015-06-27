@@ -15,8 +15,8 @@ pub struct Contact {
 pub struct ContactDetail {
     pub contact_detail_id: i32,
     pub contact_id: i32,
-    pub detail_type: String,
-    pub detail_value: String
+    pub dtype: String,
+    pub value: String
 }
 
 impl Contact {
@@ -26,7 +26,8 @@ impl Contact {
         let stmt = conn.prepare(
                 "SELECT contact_id,\
                         forename,\
-                        surname FROM contacts"
+                        surname,\
+                        created FROM contacts"
             ).unwrap();
         let rows = stmt.query(&[]).unwrap();
         for row in rows {
@@ -46,20 +47,16 @@ impl ContactDetail {
         let mut vec = Vec::new(); 
         let conn = req.db_conn();
         let stmt = conn.prepare(
-                "SELECT contact_detail_id,\
-                        contact_id,\
-                        type,\
-                        value\
-                    FROM contact_details\
-                    WHERE contact_id = $1"
+            "SELECT contact_detail_id,contact_id,type,value \
+             FROM contact_details WHERE contact_id=$1"
             ).unwrap();
         let rows = stmt.query(&[&contact_id]).unwrap();
         for row in rows {
             vec.push(ContactDetail {
                 contact_detail_id: row.get(0),
                 contact_id: row.get(1),
-                detail_type: row.get(2),
-                detail_value: row.get(3)
+                dtype: row.get(2),
+                value: row.get(3)
             }); 
         }
         vec
@@ -68,11 +65,11 @@ impl ContactDetail {
     pub fn save(&self, req: &PostgresReqExt) {
         let conn = req.db_conn();
         let _ = conn.execute(
-                "SELECT \"contact_detail_save\"($1, $2, $3, $4)",
+            "SELECT \"contact_detail_save\"($1, $2, $3, $4)",
             &[&self.contact_detail_id,
               &self.contact_id,
-              &self.detail_type,
-              &self.detail_value]
+              &self.dtype,
+              &self.value]
             ).unwrap();
     }
 }
