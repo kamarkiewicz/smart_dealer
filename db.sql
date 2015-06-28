@@ -23,7 +23,8 @@ CREATE TABLE public.contacts(
 	surname varchar(64),
 	email varchar(255),
 	cell varchar(24),
-	created timestamp DEFAULT now(),
+	description text,
+	modified timestamp DEFAULT now(),
 	CONSTRAINT contact_pk PRIMARY KEY (contact_id)
 
 );

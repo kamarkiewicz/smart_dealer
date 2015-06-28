@@ -31,7 +31,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="cell">
 		<type name="varchar" length="24"/>
 	</column>
-	<column name="created" default-value="now()">
+	<column name="description">
+		<type name="text"/>
+	</column>
+	<column name="modified" default-value="now()">
 		<type name="timestamp"/>
 	</column>
 	<constraint name="contact_pk" type="pk-constr" table="public.contacts">

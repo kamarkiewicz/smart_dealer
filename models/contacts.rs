@@ -8,7 +8,10 @@ pub struct Contact {
 	pub contact_id: i32,
     pub forename: String,
     pub surname: String,
-    pub created: Timespec
+    pub email: String,
+    pub cell: String,
+    pub description: String,
+    pub modified: Timespec
 }
 
 #[derive(ToJson)]
@@ -24,10 +27,7 @@ impl Contact {
         let mut vec = Vec::new(); 
         let conn = req.db_conn();
         let stmt = conn.prepare(
-                "SELECT contact_id,\
-                        forename,\
-                        surname,\
-                        created FROM contacts"
+                "SELECT * FROM contacts"
             ).unwrap();
         let rows = stmt.query(&[]).unwrap();
         for row in rows {
@@ -35,7 +35,10 @@ impl Contact {
                 contact_id: row.get(0),
                 forename: row.get(1),
                 surname: row.get(2),
-                created: row.get(3)
+                email: row.get(3),
+                cell: row.get(4),
+                description: row.get(5),
+                modified: row.get(6)
             }); 
         }
         vec
