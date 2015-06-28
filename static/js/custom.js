@@ -1,3 +1,6 @@
+//
+// popover
+//
 $(document).ready(function() {
 
   // Variables
@@ -26,19 +29,19 @@ $(document).ready(function() {
     buildSnippets();
   }
 
-  function smoothScroll(e) {
-    e.preventDefault();
-    $(document).off("scroll");
-    var target = this.hash,
-        menu = target;
-    $target = $(target);
-    $('html, body').stop().animate({
-        'scrollTop': $target.offset().top-40
-    }, 0, 'swing', function () {
-        window.location.hash = target;
-        $(document).on("scroll", onScroll);
-    });
-  }
+  // function smoothScroll(e) {
+  //   e.preventDefault();
+  //   $(document).off("scroll");
+  //   var target = this.hash,
+  //       menu = target;
+  //   $target = $(target);
+  //   $('html, body').stop().animate({
+  //       'scrollTop': $target.offset().top-40
+  //   }, 0, 'swing', function () {
+  //       window.location.hash = target;
+  //       $(document).on("scroll", onScroll);
+  //   });
+  // }
 
   function openPopover(e) {
     e.preventDefault()
@@ -54,11 +57,11 @@ $(document).ready(function() {
     }
   }
 
-  $("#button").click(function() {
-    $('html, body').animate({
-        scrollTop: $("#elementtoScrollToID").offset().top
-    }, 2000);
-});
+  // $("#button").click(function() {
+  //   $('html, body').animate({
+  //       scrollTop: $("#elementtoScrollToID").offset().top
+  //   }, 2000);
+  // });
 
   function resize() {
     $body.removeClass('has-docked-nav')
@@ -89,6 +92,23 @@ $(document).ready(function() {
   }
 
 
-  init();
+  //
+  // contacts page
+  //
+  $('a.new-contact').click(function(e) {
+    e.preventDefault();
+    $('.contact-editor').show();
+    $(this).text('Akceptuj').click(function(e){
+      e.preventDefault();
+      $.post('new', $('#new-contact-form').serialize());
+      location.reload();
+    });
+  });
 
+
+
+
+
+
+  init();
 });

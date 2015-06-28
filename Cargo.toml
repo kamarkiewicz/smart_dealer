@@ -14,6 +14,10 @@ path = "app.rs"
 git = "https://github.com/kamarkiewicz/time.git"
 features = ["rustc-serialize", "postgres"]
 
+[dependencies.postgres]
+version = "*"
+features = ["rustc-serialize"]
+
 [dependencies.iron-postgres-middleware]
 git = "https://github.com/kamarkiewicz/iron-postgres-middleware.git"
 

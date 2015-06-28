@@ -15,46 +15,62 @@
             </tr>
           </thead>
           <tbody>
+          {{#each contacts~}}
             <tr>
-              <td>Dave Gamache</td>
-              <td>dave.gamache@example.com</td>
-              <td>666-767-825</td>
-              <td>San Francisco</td>
+              <td>{{forename}} {{surname}}</td>
+              <td>{{email}}</td>
+              <td>{{cell}}</td>
+              <td>{{description}}</td>
               <td class="delete-mark"><div>&#10540;</div></td>
             </tr>
-            <tr>
+          {{/each~}}
+
+
+            <!-- CONTACT EDITOR -->
+            <tr class="contact-editor main-editor">
+              <td><span class=""><input type="text" name="forename" class="u-full-width editable-line" placeholder="Imię"/></span><span><input type="text" name="surname" class="u-full-width editable-line" placeholder="Nazwisko"/></span></td>
+              <td><input type="text" name="email" class="u-full-width editable-line" placeholder="E-mail"/></td>
+              <td><input type="text" name="cell" class="u-full-width editable-line" placeholder="Telefon"/></td>
+              <td><textarea type="text" name="description" class="u-full-width editable-line" placeholder="Opis"></textarea></td>
+              <td class="delete-mark"><div>&#10540;</div></td>
+            </tr>
+            <tr class="contact-editor extended-editor">
               <td colspan="5">
                 <div class="account-expanded container">
                   <!-- table for addresses -->
                   <div class="row">
                     <label>Adresy</label>
                   </div>
-                  <div class="address-entry row">
-                    <div class="two columns">
-                      <label>Adres 1</label>
-                    </div>
-                    <div class="ten columns">
-                      <div class="address container">
-                        <div class="row">  
-                          <div class="seven columns"><div class="u-full-width" style="border-bottom: thin solid #E1E1E1">Żmigrodzka 321</div></div>
-                        </div>
-                        <div class="row">
-                          <div class="seven columns"><div class="u-full-width" style="border-bottom: thin solid #E1E1E1">&nbsp;</div></div>
-                        </div>
-                        <div class="row">
-                          <div class="four columns"><div class="u-full-width" style="border-bottom: thin solid #E1E1E1">Wrocław</div></div>
-                          <div class="four columns"><div class="u-full-width" style="border-bottom: thin solid #E1E1E1">dolnośląskie</div></div>
-                          <div class="two columns"><div class="u-full-width" style="border-bottom: thin solid #E1E1E1">00-123</div></div>
-                        </div>
-                        <div class="row">
-                          <div class="four columns"><div class="u-full-width" style="border-bottom: thin solid #E1E1E1">Polska</div></div>
+                  <div class="address-list">
+                    <div class="address-entry row">
+                      <div class="two columns">
+                        <label>Adres 1</label>
+                      </div>
+                      <div class="ten columns">
+                        <div class="address container">
+                          <div class="row">  
+                            <div class="seven columns">
+                              <input type="text" name="address" class="u-full-width editable-line" value="Żmigrodzka 321"/>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="seven columns"><div class="u-full-width editable-line">&nbsp;</div></div>
+                          </div>
+                          <div class="row">
+                            <div class="four columns"><div class="u-full-width editable-line">Wrocław</div></div>
+                            <div class="four columns"><div class="u-full-width editable-line">dolnośląskie</div></div>
+                            <div class="two columns"><div class="u-full-width editable-line">00-123</div></div>
+                          </div>
+                          <div class="row">
+                            <div class="four columns"><div class="u-full-width editable-line">Polska</div></div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="row">
-                      <div class="offset-by-two ten columns">
-                        <div id="mapka" class="u-full-width" style="height: 300px; border: 1px solid black; background: gray;">
-                        <!-- tu będzie mapa -->
+                      <div class="row">
+                        <div class="offset-by-two ten columns">
+                          <div id="mapka" class="u-full-width" style="height: 300px; border: 1px solid black; background: gray;">
+                          <!-- tu będzie mapa -->
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -67,59 +83,25 @@
                   </div>
                   
                   <div class="detail-entry row">
-                    <div class="three columns"><div class="u-full-width" style="border-bottom: thin solid #E1E1E1">E-mail (prywatny)</div></div>
-                    <div class="six columns"><div class="u-full-width" style="border-bottom: thin solid #E1E1E1">trolololo@example.com</div></div>
+                    <div class="three columns"><div class="u-full-width editable-line">E-mail (prywatny)</div></div>
+                    <div class="six columns"><div class="u-full-width editable-line">trolololo@example.com</div></div>
                   </div>
                   <div class="detail-entry row">
-                    <div class="three columns"><div class="u-full-width" style="border-bottom: thin solid #E1E1E1">E-mail (prywatny)</div></div>
-                    <div class="six columns"><div class="u-full-width" style="border-bottom: thin solid #E1E1E1">trolololo@example.com</div></div>
+                    <div class="three columns"><div class="u-full-width editable-line">E-mail (prywatny)</div></div>
+                    <div class="six columns"><div class="u-full-width editable-line">trolololo@example.com</div></div>
                   </div>
 
                   <a class="button" href="#">Nowy detal</a>
                 </div>
               </td>
             </tr>
-            <tr>
-              <td>Dwayne Johnson</td>
-              <td>dwayne.johnson@example.com</td>
-              <td>666-402-131</td>
-              <td>Hayward</td>
-              <td class="delete-mark"><div>&#10540;</div></td>
-            </tr>
-            <tr>
-              <td>Dave Gamache</td>
-              <td>dave.gamache@example.com</td>
-              <td>666-767-825</td>
-              <td>San Francisco</td>
-              <td class="delete-mark"><div>&#10540;</div></td>
-            </tr>
-            <tr>
-              <td>Dwayne Johnson</td>
-              <td>dwayne.johnson@example.com</td>
-              <td>666-402-131</td>
-              <td>Hayward</td>
-              <td class="delete-mark"><div>&#10540;</div></td>
-            </tr>
-            <tr>
-              <td>Dave Gamache</td>
-              <td>dave.gamache@example.com</td>
-              <td>666-767-825</td>
-              <td>San Francisco</td>
-              <td class="delete-mark"><div>&#10540;</div></td>
-            </tr>
-          {{#each contacts~}}
-            <tr>
-              <td>{{forename}} {{surname}}</td>
-              <td>{{email}}</td>
-              <td>{{cell}}</td>
-              <td>{{description}}</td>
-              <td class="delete-mark"><div>&#10540;</div></td>
-            </tr>
-          {{/each~}}
+            <!-- /CONTACT EDITOR -->
+
+
           </tbody>
         </table>
       </div>
-      <a class="button" href="#">Nowy kontakt</a>
+      <a class="button new-contact" href="#">Nowy kontakt</a>
     </div>
 {{/partial}}
 

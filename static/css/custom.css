@@ -223,3 +223,18 @@
   .popover-item:first-child .popover-link:hover:after {
     border-bottom-color: #33C3F0; }
 }
+
+
+/* ------------- CONTACTS -------------- */
+.editable-line {
+  border: none !important;
+  border-radius: 0 !important;
+  border-bottom: thin solid #E1E1E1 !important;
+  height: inherit !important;
+  padding: inherit !important;
+  margin-bottom: inherit !important;
+}
+
+.contact-editor {
+  display: none;
+}
