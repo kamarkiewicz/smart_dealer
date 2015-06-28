@@ -3,13 +3,10 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1-alpha1" author="Kamil Markiewicz &lt;k.a.markiewicz@gmail.com&gt;" last-position="0,0" last-zoom="0.8"
+<dbmodel pgmodeler-ver="0.8.1-beta" author="Kamil Markiewicz &lt;k.a.markiewicz@gmail.com&gt;" last-position="0,0" last-zoom="0.8"
 	 default-schema="public" default-owner="postgres">
-<database name="black_dealer" prepend-at-bod="true">
+<database name="black_dealer" append-at-eod="true" prepend-at-bod="true">
 	<role name="postgres"/>
-	<prepended-sql><![CDATA[CREATE EXTENSION postgis;
--- CREATE EXTENSION postgis_topology;
-]]></prepended-sql>
 </database>
 
 <schema name="public" protected="true" fill-color="#e1e1e1" sql-disabled="true">
@@ -18,7 +15,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="contacts">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1520" y="620"/>
+	<position x="1520" y="617.5"/>
 	<column name="contact_id" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -27,6 +24,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<column name="surname">
 		<type name="varchar" length="64"/>
+	</column>
+	<column name="email">
+		<type name="varchar" length="255"/>
+	</column>
+	<column name="cell">
+		<type name="varchar" length="24"/>
 	</column>
 	<column name="created" default-value="now()">
 		<type name="timestamp"/>
@@ -47,7 +50,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="varchar"/>
 	</column>
 	<column name="description">
-		<type name="varchar"/>
+		<type name="text"/>
 	</column>
 	<constraint name="product_pk" type="pk-constr" table="public.products">
 		<columns names="product_id" ref-type="src-columns"/>
@@ -105,7 +108,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="availabilities">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="420" y="460"/>
+	<position x="416.25" y="460"/>
 	<column name="availability_id" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -113,7 +116,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="integer"/>
 	</column>
 	<column name="description">
-		<type name="varchar"/>
+		<type name="text"/>
 	</column>
 	<constraint name="availability_pk" type="pk-constr" table="public.availabilities">
 		<columns names="availability_id" ref-type="src-columns"/>
@@ -150,8 +153,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="country">
 		<type name="varchar" length="128"/>
 	</column>
-	<column name="geopoint">
-		<type name="geography" spatial-type="POINT" variation="0" srid="0"/>
+	<column name="geospot">
+		<type name="json"/>
 	</column>
 	<constraint name="address_pk" type="pk-constr" table="public.addresses">
 		<columns names="address_id" ref-type="src-columns"/>
@@ -215,11 +218,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 src-table="public.offers"
 	 dst-table="public.products"
 	 src-required="false" dst-required="false"
-	 table-name="many_offers_has_many_products">
-	<column name="price">
-		<type name="money"/>
-	</column>
-</relationship>
+	 table-name="many_offers_has_many_products"/>
 
 <relationship name="contacts_has_many_contact_details" type="rel1n"
 	 src-col-pattern="{sc}"

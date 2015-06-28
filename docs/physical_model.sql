@@ -1,7 +1,11 @@
-CREATE EXTENSION postgis;
+-- Prepended SQL commands --
 
+---
 
+-- Database generated with pgModeler (PostgreSQL Database Modeler).
+-- pgModeler  version: 0.8.1-beta
 -- PostgreSQL version: 9.4
+-- Project Site: pgmodeler.com.br
 -- Model Author: Kamil Markiewicz <k.a.markiewicz@gmail.com>
 
 
@@ -21,6 +25,8 @@ CREATE TABLE public.contacts(
 	contact_id serial NOT NULL,
 	forename varchar(32),
 	surname varchar(64),
+	email varchar(255),
+	cell varchar(24),
 	created timestamp DEFAULT now(),
 	CONSTRAINT contact_pk PRIMARY KEY (contact_id)
 
@@ -34,7 +40,7 @@ ALTER TABLE public.contacts OWNER TO postgres;
 CREATE TABLE public.products(
 	product_id serial NOT NULL,
 	name varchar,
-	description varchar,
+	description text,
 	CONSTRAINT product_pk PRIMARY KEY (product_id)
 
 );
@@ -50,7 +56,7 @@ CREATE TABLE public.deals(
 	address_id integer,
 	contact_id integer,
 	status smallint,
-	timestamp timestamp,
+	"timestamp" timestamp,
 	CONSTRAINT deal_pk PRIMARY KEY (deal_id)
 
 );
@@ -77,7 +83,7 @@ CREATE TABLE public.availabilities(
 	availability_id serial NOT NULL,
 	product_id integer,
 	quantity integer,
-	description varchar,
+	description text,
 	CONSTRAINT availability_pk PRIMARY KEY (availability_id)
 
 );
@@ -94,7 +100,7 @@ CREATE TABLE public.addresses(
 	city varchar(64),
 	state varchar(32),
 	country varchar(128),
-	geopoint geography(POINT),
+	geospot json,
 	CONSTRAINT address_pk PRIMARY KEY (address_id)
 
 );
@@ -137,7 +143,6 @@ ALTER TABLE public.bank_accounts OWNER TO postgres;
 CREATE TABLE public.many_offers_has_many_products(
 	offer_id integer,
 	offers integer,
-	price money,
 	CONSTRAINT many_offers_has_many_products_pk PRIMARY KEY (offer_id,offers)
 
 );
@@ -253,3 +258,6 @@ ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
 
 
+-- Appended SQL commands --
+
+---

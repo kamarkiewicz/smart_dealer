@@ -1,6 +1,7 @@
 
 
 -- PostgreSQL version: 9.4
+-- Project Site: https://github.com/kamarkiewicz/smart_dealer
 -- Model Author: Kamil Markiewicz <k.a.markiewicz@gmail.com>
 
 
@@ -9,12 +10,10 @@
 -- -- object: black_dealer | type: DATABASE --
 -- -- DROP DATABASE IF EXISTS black_dealer;
 -- CREATE DATABASE black_dealer
--- 	OWNER = postgres
+-- 	OWNER = blackd
 -- ;
 -- -- ddl-end --
 -- 
-
--- CREATE EXTENSION postgis;
 
 -- object: public.contacts | type: TABLE --
 DROP TABLE IF EXISTS public.contacts CASCADE;
@@ -22,6 +21,8 @@ CREATE TABLE public.contacts(
 	contact_id serial NOT NULL,
 	forename varchar(32),
 	surname varchar(64),
+	email varchar(255),
+	cell varchar(24),
 	created timestamp DEFAULT now(),
 	CONSTRAINT contact_pk PRIMARY KEY (contact_id)
 
@@ -35,7 +36,7 @@ DROP TABLE IF EXISTS public.products CASCADE;
 CREATE TABLE public.products(
 	product_id serial NOT NULL,
 	name varchar,
-	description varchar,
+	description text,
 	CONSTRAINT product_pk PRIMARY KEY (product_id)
 
 );
@@ -51,7 +52,7 @@ CREATE TABLE public.deals(
 	address_id integer,
 	contact_id integer,
 	status smallint,
-	timestamp timestamp,
+	"timestamp" timestamp,
 	CONSTRAINT deal_pk PRIMARY KEY (deal_id)
 
 );
@@ -78,7 +79,7 @@ CREATE TABLE public.availabilities(
 	availability_id serial NOT NULL,
 	product_id integer,
 	quantity integer,
-	description varchar,
+	description text,
 	CONSTRAINT availability_pk PRIMARY KEY (availability_id)
 
 );
@@ -95,7 +96,7 @@ CREATE TABLE public.addresses(
 	city varchar(64),
 	state varchar(32),
 	country varchar(128),
-	geopoint geography(POINT),
+	geospot json,
 	CONSTRAINT address_pk PRIMARY KEY (address_id)
 
 );
@@ -108,8 +109,8 @@ DROP TABLE IF EXISTS public.contact_details CASCADE;
 CREATE TABLE public.contact_details(
 	contact_detail_id serial NOT NULL,
 	contact_id integer,
-	dtype varchar(16),
-	dvalue text,
+	type varchar(16),
+	value text,
 	CONSTRAINT contact_detail_pk PRIMARY KEY (contact_detail_id)
 
 );
@@ -138,7 +139,6 @@ DROP TABLE IF EXISTS public.many_offers_has_many_products CASCADE;
 CREATE TABLE public.many_offers_has_many_products(
 	offer_id integer,
 	offers integer,
-	price money,
 	CONSTRAINT many_offers_has_many_products_pk PRIMARY KEY (offer_id,offers)
 
 );
@@ -252,5 +252,3 @@ ALTER TABLE public.deals ADD CONSTRAINT addresses_fk FOREIGN KEY (address_id)
 REFERENCES public.addresses (address_id) MATCH FULL
 ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
-
-
