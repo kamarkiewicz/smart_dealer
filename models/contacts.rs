@@ -1,4 +1,5 @@
 
+use postgres;
 use ipm::PostgresReqExt;
 use rustc_serialize::json::{self, ToJson};
 use time::Timespec;
@@ -65,14 +66,17 @@ impl ContactDetail {
         vec
     }
 
-    pub fn save(&self, req: &PostgresReqExt) {
+    pub fn commit(&self, req: &PostgresReqExt) -> postgres::Result<u64> {
         let conn = req.db_conn();
-        let _ = conn.execute(
-            "SELECT \"contact_detail_save\"($1, $2, $3, $4)",
+        //TODO: trigger for INSERT or UPDATE to remove duplicates.
+        //      if contact_detail_id is 0, then INSERT else UPDATE.
+        conn.execute(
+            "INSERT INTO contact_details  \
+             VALUES($1, $2, $3, $4)       ",
             &[&self.contact_detail_id,
               &self.contact_id,
               &self.dtype,
               &self.dvalue]
-            ).unwrap();
+            )
     }
 }

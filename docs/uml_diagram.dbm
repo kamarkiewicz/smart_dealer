@@ -137,7 +137,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="addresses">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1160" y="380"/>
+	<position x="1165" y="378.75"/>
 	<column name="address_id" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -156,7 +156,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="country">
 		<type name="varchar" length="128"/>
 	</column>
-	<column name="geospot">
+	<column name="geospot" not-null="true" default-value="to_json('{&quot;lat&quot;:&quot;&quot;,&quot;long&quot;:&quot;&quot;}'::text)">
 		<type name="json"/>
 	</column>
 	<constraint name="address_pk" type="pk-constr" table="public.addresses">
