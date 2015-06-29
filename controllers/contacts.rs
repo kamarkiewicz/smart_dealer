@@ -19,14 +19,16 @@ fn contacts(req: &mut Request) -> IronResult<Response> {
     Ok(Response::with((status::Ok, payload)))
 }
 
-fn details_get(req: &mut Request) -> IronResult<Response> {
+fn extended_contact_get(req: &mut Request) -> IronResult<Response> {
     let params = req.extensions.get::<Router>().unwrap();
-    let client_id_opt = params.find("client_id").unwrap();
-    let client_id = client_id_opt.parse::<i32>().unwrap();
-    let v = models::ContactDetail::get_by_client_id(req, client_id);
+    let contact_id_opt = params.find("contact_id").unwrap();
+    let contact_id = contact_id_opt.parse::<i32>().unwrap();
+    let addresses_vec = models::Address::get_by_contact_id(req, contact_id);
+    let details_vec = models::ContactDetail::get_by_contact_id(req, contact_id);
     let data = btreemap! {
-        "client_id".to_string() => client_id.to_json(),
-        "details".to_string() => v.to_json()
+        "contact_id".to_string() => contact_id.to_json(),
+        "addresses".to_string() => addresses_vec.to_json(),
+        "details".to_string() => details_vec.to_json()
     };
     let payload = json::encode(&data).unwrap();
     let mut resp = Response::with((status::Ok, payload));
@@ -37,9 +39,9 @@ fn details_get(req: &mut Request) -> IronResult<Response> {
 // fn details_post(req: &mut Request) -> IronResult<Response> {
 //     let params = req.extensions.get::<Router>().unwrap();
 //     let id = params.find("id").unwrap();
-//     let v = models::ContactDetail::get_by_client_id(req, id);
+//     let v = models::ContactDetail::contact_client_id(req, id);
 //     let data = btreemap! {
-//         "client_id".to_string() => id.to_json(),
+//         "contact_id".to_string() => id.to_json(),
 //         "details".to_string() => v.to_json()
 //     }.to_json();
 //     Ok(Response::with((status::Ok, data)))
@@ -49,7 +51,8 @@ pub fn routes() -> Router {
     let mut router = Router::new();
     router
         .get("/", contacts)
-        .get("/details/:client_id", details_get);
-        // .post("/details/:client_id", details_post);
+        .get("/:contact_id", extended_contact_get)
+        // .post("/new", account_new)
+        ;
     router
 }
