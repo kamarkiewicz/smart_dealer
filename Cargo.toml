@@ -15,25 +15,18 @@ git = "https://github.com/kamarkiewicz/time.git"
 features = ["rustc-serialize", "postgres"]
 
 [dependencies.postgres]
-version = "*"
+version = "0.9.2"
 features = ["rustc-serialize"]
 
 [dependencies.iron-postgres-middleware]
 git = "https://github.com/kamarkiewicz/iron-postgres-middleware.git"
 
-[dependencies.handlebars-iron]
-git = "https://github.com/sunng87/handlebars-iron.git"
-
-[dependencies.mount]
-git = "https://github.com/iron/mount.git"
-
 [dependencies]
-iron = "*"
-router = "*"
-rustc-serialize = "*"
-tojson_macros = "*"
-staticfile = "*"
-maplit = "*"
-
-# [dev-dependencies]
-
+iron = "0.1.20"
+router = "0.0.10"
+mount = "0.0.7"
+rustc-serialize = "0.3.15"
+handlebars-iron = "0.7.1"
+tojson_macros = "0.3.4"
+staticfile = "0.0.2"
+maplit = "0.1.1"
